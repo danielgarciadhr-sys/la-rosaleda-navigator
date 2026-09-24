@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#102142"><link rel="manifest" href="manifest.webmanifest">
+<title>La Rosaleda Navigator · Plano digital</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f3f5f8;color:#102142}
+*{box-sizing:border-box}body{margin:0}main{max-width:1150px;margin:auto;padding:14px}
+.card{background:#fff;border:1px solid #d9e0e9;border-radius:18px;padding:16px;margin-bottom:14px}
+h1{margin:0 0 4px;font-size:25px}.muted{color:#667085;font-size:14px}label{display:block;font-size:14px;font-weight:700;margin-top:10px}
+input,select,button.ctrl{width:100%;min-height:46px;border:1px solid #cbd5e1;border-radius:11px;padding:9px 12px;font-size:16px;margin-top:6px;background:#fff}
+button.ctrl{background:#102142;color:#fff;border:0;font-weight:800;cursor:pointer}
+.layout{display:grid;grid-template-columns:280px 1fr;gap:14px}
+.map-shell{overflow:auto;background:#e9edf3;border-radius:16px;border:1px solid #d9e0e9;max-height:75vh}
+.map{position:relative;width:100%;min-width:700px;line-height:0}
+.map img{width:100%;height:auto;display:block}
+.hotspot{position:absolute;transform:translate(-50%,-50%);width:38px;height:27px;border-radius:8px;border:2px solid transparent;background:transparent;color:transparent;font-size:10px;cursor:pointer;padding:0;line-height:1}
+.hotspot:hover,.hotspot.active{background:#e11d48dd;border-color:#fff;color:#fff;z-index:5;box-shadow:0 0 0 3px #e11d4840}
+.route{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:4}
+.route path{fill:none;stroke:#2563eb;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:13 10}
+.marker{fill:#e11d48;stroke:#fff;stroke-width:4}
+.start{fill:#2563eb;stroke:#fff;stroke-width:4}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.step{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px}.small{font-size:11px;color:#667085}.val{font-weight:800;margin-top:3px}
+.search{position:sticky;top:0;background:#fff;padding-bottom:8px;z-index:10}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.map-shell{max-height:60vh}.steps{grid-template-columns:1fr 1fr}}
+</style></head>
+<body><main>
+<section class="card"><h1>🧭 La Rosaleda Navigator</h1><div class="muted">Plano digital interactivo basado en el mapa que has enviado. Pulsa un sector para seleccionarlo.</div></section>
+<div class="layout">
+<section class="card search">
+<form id="form">
+<label>Sector<select id="sector"><option value="101">101 · Tribuna</option>
+<option value="102">102 · Tribuna</option>
+<option value="103">103 · Tribuna</option>
+<option value="104">104 · Tribuna</option>
+<option value="105">105 · Tribuna</option>
+<option value="106">106 · Tribuna</option>
+<option value="107">107 · Tribuna</option>
+<option value="108">108 · Tribuna</option>
+<option value="109">109 · Fondos</option>
+<option value="110">110 · Fondos</option>
+<option value="111">111 · Fondos</option>
+<option value="112">112 · Fondos</option>
+<option value="113">113 · Fondos</option>
+<option value="114">114 · Fondos</option>
+<option value="115">115 · Fondos</option>
+<option value="116">116 · Fondos</option>
+<option value="117">117 · Fondos</option>
+<option value="118">118 · Fondos</option>
+<option value="119">119 · Fondos</option>
+<option value="120">120 · Preferencia</option>
+<option value="122">122 · Preferencia</option>
+<option value="123">123 · Preferencia</option>
+<option value="124">124 · Preferencia</option>
+<option value="125">125 · Preferencia</option>
+<option value="126">126 · Preferencia</option>
+<option value="127">127 · Preferencia</option>
+<option value="201">201 · Tribuna</option>
+<option value="202">202 · Tribuna</option>
+<option value="203">203 · Tribuna</option>
+<option value="204">204 · Tribuna</option>
+<option value="205">205 · Tribuna</option>
+<option value="206">206 · Tribuna</option>
+<option value="207">207 · Tribuna</option>
+<option value="208">208 · Tribuna</option>
+<option value="209">209 · Tribuna</option>
+<option value="210">210 · Tribuna</option>
+<option value="211">211 · Tribuna</option>
+<option value="212">212 · Tribuna</option>
+<option value="213">213 · Tribuna</option>
+<option value="214">214 · Tribuna</option>
+<option value="215">215 · Tribuna</option>
+<option value="216">216 · Tribuna</option>
+<option value="217">217 · Fondos</option>
+<option value="218">218 · Fondos</option>
+<option value="219">219 · Fondos</option>
+<option value="220">220 · Fondos</option>
+<option value="221">221 · Fondos</option>
+<option value="222">222 · Fondos</option>
+<option value="223">223 · Fondos</option>
+<option value="224">224 · Fondos</option>
+<option value="225">225 · Preferencia</option>
+<option value="226">226 · Fondos</option>
+<option value="227">227 · Preferencia</option>
+<option value="228">228 · Fondos</option>
+<option value="229">229 · Preferencia</option>
+<option value="230">230 · Fondos</option>
+<option value="231">231 · Preferencia</option>
+<option value="232">232 · Preferencia</option>
+<option value="233">233 · Preferencia</option>
+<option value="234">234 · Preferencia</option>
+<option value="235">235 · Preferencia</option>
+<option value="236">236 · Preferencia</option>
+<option value="237">237 · Preferencia</option>
+<option value="238">238 · Preferencia</option>
+<option value="240">240 · Preferencia</option>
+<option value="242">242 · Preferencia</option>
+<option value="244">244 · Preferencia</option>
+<option value="246">246 · Preferencia</option>
+<option value="401">401 · Tribuna</option>
+<option value="402">402 · Tribuna</option>
+<option value="403">403 · Tribuna</option>
+<option value="404">404 · Tribuna</option>
+<option value="405">405 · Tribuna</option>
+<option value="406">406 · Tribuna</option>
+<option value="407">407 · Tribuna</option>
+<option value="408">408 · Tribuna</option>
+<option value="409">409 · Preferencia</option>
+<option value="410">410 · Preferencia</option>
+<option value="411">411 · Preferencia</option>
+<option value="412">412 · Preferencia</option>
+<option value="413">413 · Preferencia</option>
+<option value="414">414 · Preferencia</option>
+<option value="415">415 · Preferencia</option>
+<option value="416">416 · Preferencia</option>
+<option value="417">417 · Preferencia</option>
+<option value="418">418 · Preferencia</option>
+<option value="419">419 · Preferencia</option>
+<option value="420">420 · Preferencia</option>
+<option value="421">421 · Preferencia</option>
+<option value="423">423 · Preferencia</option>
+<option value="424">424 · Preferencia</option>
+<option value="425">425 · Preferencia</option>
+<option value="426">426 · Preferencia</option>
+<option value="427">427 · Preferencia</option>
+<option value="428">428 · Preferencia</option>
+<option value="429">429 · Preferencia</option>
+<option value="430">430 · Preferencia</option>
+<option value="501">501 · Tribuna</option>
+<option value="502">502 · Tribuna</option>
+<option value="503">503 · Tribuna</option>
+<option value="504">504 · Tribuna</option>
+<option value="505">505 · Tribuna</option>
+<option value="506">506 · Tribuna</option>
+<option value="507">507 · Tribuna</option>
+<option value="508">508 · Tribuna</option>
+<option value="509">509 · Fondos</option>
+<option value="510">510 · Fondos</option>
+<option value="511">511 · Fondos</option>
+<option value="512">512 · Fondos</option>
+<option value="513">513 · Fondos</option>
+<option value="514">514 · Fondos</option>
+<option value="515">515 · Fondos</option>
+<option value="516">516 · Fondos</option>
+<option value="517">517 · Fondos</option>
+<option value="518">518 · Fondos</option>
+<option value="519">519 · Fondos</option>
+<option value="520">520 · Fondos</option>
+<option value="521">521 · Fondos</option>
+<option value="522">522 · Fondos</option>
+<option value="523">523 · Fondos</option>
+<option value="524">524 · Fondos</option>
+<option value="525">525 · Fondos</option>
+<option value="526">526 · Fondos</option>
+<option value="527">527 · Fondos</option>
+<option value="528">528 · Fondos</option>
+<option value="529">529 · Fondos</option>
+<option value="530">530 · Fondos</option>
+<option value="531">531 · Fondos</option>
+<option value="532">532 · Fondos</option>
+<option value="533">533 · Fondos</option>
+<option value="534">534 · Fondos</option>
+<option value="535">535 · Fondos</option>
+<option value="536">536 · Fondos</option>
+<option value="537">537 · Fondos</option>
+<option value="538">538 · Fondos</option>
+<option value="539">539 · Fondos</option>
+<option value="540">540 · Fondos</option>
+<option value="541">541 · Fondos</option>
+<option value="542">542 · Fondos</option>
+<option value="543">543 · Fondos</option>
+<option value="544">544 · Fondos</option>
+<option value="545">545 · Fondos</option>
+<option value="546">546 · Fondos</option>
+<option value="547">547 · Fondos</option>
+<option value="548">548 · Fondos</option>
+<option value="549">549 · Fondos</option>
+<option value="550">550 · Fondos</option>
+<option value="551">551 · Fondos</option></select></label>
+<div class="grid2"><label>Fila<input id="row" type="number" min="1" max="100" value="12"></label><label>Asiento<input id="seat" type="number" min="1" max="300" value="18"></label></div>
+<label>Puerta de entrada<select id="gate"><option value="0">Puerta 0</option><option value="1">Puerta 1</option><option value="2">Puerta 2</option><option value="3">Puerta 3</option><option value="4">Puerta 4</option><option value="5">Puerta 5</option><option value="6">Puerta 6</option><option value="7">Puerta 7</option><option value="8">Puerta 8</option><option value="9">Puerta 9</option><option value="10">Puerta 10</option><option value="11">Puerta 11</option><option value="12">Puerta 12</option><option value="13">Puerta 13</option><option value="14">Puerta 14</option><option value="15">Puerta 15</option><option value="16">Puerta 16</option><option value="18">Puerta 18</option></select></label>
+<button class="ctrl" style="margin-top:12px">🧭 Calcular recorrido</button>
+</form>
+<hr style="border:0;border-top:1px solid #e5e7eb;margin:16px 0">
+<div class="small">Destino</div><div id="dest" style="font-weight:800;margin-top:4px">Sector 101 · Fila 12 · Asiento 18</div>
+<div id="zone" class="muted" style="margin-top:4px">Tribuna</div>
+</section>
+<section>
+<div class="map-shell"><div class="map" id="map">
+<img src="mapa-la-rosaleda.png" alt="Plano de La Rosaleda">
+<svg class="route" viewBox="0 0 1920 1500" preserveAspectRatio="none"><path id="routePath"></path><circle id="startMarker" class="start" r="11"/><circle id="targetMarker" class="marker" r="13"/></svg>
+<button class="hotspot" data-sector="101" style="left:47.396%;top:60.333%" title="Sector 101">101</button>
+<button class="hotspot" data-sector="102" style="left:51.042%;top:60.333%" title="Sector 102">102</button>
+<button class="hotspot" data-sector="103" style="left:42.708%;top:60.333%" title="Sector 103">103</button>
+<button class="hotspot" data-sector="104" style="left:55.208%;top:60.333%" title="Sector 104">104</button>
+<button class="hotspot" data-sector="105" style="left:36.979%;top:60.333%" title="Sector 105">105</button>
+<button class="hotspot" data-sector="106" style="left:60.417%;top:60.333%" title="Sector 106">106</button>
+<button class="hotspot" data-sector="107" style="left:32.812%;top:60.333%" title="Sector 107">107</button>
+<button class="hotspot" data-sector="108" style="left:65.625%;top:60.333%" title="Sector 108">108</button>
+<button class="hotspot" data-sector="109" style="left:29.167%;top:54.667%" title="Sector 109">109</button>
+<button class="hotspot" data-sector="110" style="left:60.938%;top:54.667%" title="Sector 110">110</button>
+<button class="hotspot" data-sector="111" style="left:27.083%;top:53.333%" title="Sector 111">111</button>
+<button class="hotspot" data-sector="112" style="left:61.979%;top:52.000%" title="Sector 112">112</button>
+<button class="hotspot" data-sector="113" style="left:25.000%;top:50.667%" title="Sector 113">113</button>
+<button class="hotspot" data-sector="114" style="left:61.979%;top:48.000%" title="Sector 114">114</button>
+<button class="hotspot" data-sector="115" style="left:23.438%;top:46.667%" title="Sector 115">115</button>
+<button class="hotspot" data-sector="116" style="left:61.979%;top:44.000%" title="Sector 116">116</button>
+<button class="hotspot" data-sector="117" style="left:23.438%;top:42.667%" title="Sector 117">117</button>
+<button class="hotspot" data-sector="118" style="left:60.938%;top:40.000%" title="Sector 118">118</button>
+<button class="hotspot" data-sector="119" style="left:23.438%;top:38.667%" title="Sector 119">119</button>
+<button class="hotspot" data-sector="120" style="left:61.979%;top:28.667%" title="Sector 120">120</button>
+<button class="hotspot" data-sector="122" style="left:58.854%;top:28.667%" title="Sector 122">122</button>
+<button class="hotspot" data-sector="123" style="left:37.500%;top:28.667%" title="Sector 123">123</button>
+<button class="hotspot" data-sector="124" style="left:54.167%;top:28.667%" title="Sector 124">124</button>
+<button class="hotspot" data-sector="125" style="left:42.708%;top:28.667%" title="Sector 125">125</button>
+<button class="hotspot" data-sector="126" style="left:50.521%;top:28.667%" title="Sector 126">126</button>
+<button class="hotspot" data-sector="127" style="left:46.875%;top:28.667%" title="Sector 127">127</button>
+<button class="hotspot" data-sector="201" style="left:47.135%;top:63.333%" title="Sector 201">201</button>
+<button class="hotspot" data-sector="202" style="left:50.781%;top:63.333%" title="Sector 202">202</button>
+<button class="hotspot" data-sector="203" style="left:43.490%;top:63.333%" title="Sector 203">203</button>
+<button class="hotspot" data-sector="204" style="left:54.167%;top:63.333%" title="Sector 204">204</button>
+<button class="hotspot" data-sector="205" style="left:38.281%;top:63.333%" title="Sector 205">205</button>
+<button class="hotspot" data-sector="206" style="left:58.333%;top:63.333%" title="Sector 206">206</button>
+<button class="hotspot" data-sector="207" style="left:33.854%;top:63.333%" title="Sector 207">207</button>
+<button class="hotspot" data-sector="208" style="left:63.021%;top:63.333%" title="Sector 208">208</button>
+<button class="hotspot" data-sector="209" style="left:36.458%;top:64.667%" title="Sector 209">209</button>
+<button class="hotspot" data-sector="210" style="left:60.417%;top:64.667%" title="Sector 210">210</button>
+<button class="hotspot" data-sector="211" style="left:33.854%;top:66.000%" title="Sector 211">211</button>
+<button class="hotspot" data-sector="212" style="left:62.500%;top:66.000%" title="Sector 212">212</button>
+<button class="hotspot" data-sector="213" style="left:31.771%;top:62.000%" title="Sector 213">213</button>
+<button class="hotspot" data-sector="214" style="left:64.583%;top:62.000%" title="Sector 214">214</button>
+<button class="hotspot" data-sector="215" style="left:30.729%;top:59.333%" title="Sector 215">215</button>
+<button class="hotspot" data-sector="216" style="left:65.625%;top:58.667%" title="Sector 216">216</button>
+<button class="hotspot" data-sector="217" style="left:27.083%;top:56.667%" title="Sector 217">217</button>
+<button class="hotspot" data-sector="218" style="left:59.896%;top:56.667%" title="Sector 218">218</button>
+<button class="hotspot" data-sector="219" style="left:26.042%;top:53.333%" title="Sector 219">219</button>
+<button class="hotspot" data-sector="220" style="left:61.458%;top:52.667%" title="Sector 220">220</button>
+<button class="hotspot" data-sector="221" style="left:24.740%;top:50.000%" title="Sector 221">221</button>
+<button class="hotspot" data-sector="222" style="left:61.979%;top:49.333%" title="Sector 222">222</button>
+<button class="hotspot" data-sector="223" style="left:23.438%;top:46.667%" title="Sector 223">223</button>
+<button class="hotspot" data-sector="224" style="left:61.979%;top:46.000%" title="Sector 224">224</button>
+<button class="hotspot" data-sector="225" style="left:44.271%;top:26.667%" title="Sector 225">225</button>
+<button class="hotspot" data-sector="226" style="left:61.979%;top:42.667%" title="Sector 226">226</button>
+<button class="hotspot" data-sector="227" style="left:41.667%;top:26.667%" title="Sector 227">227</button>
+<button class="hotspot" data-sector="228" style="left:61.979%;top:39.333%" title="Sector 228">228</button>
+<button class="hotspot" data-sector="229" style="left:39.062%;top:26.667%" title="Sector 229">229</button>
+<button class="hotspot" data-sector="230" style="left:61.979%;top:36.000%" title="Sector 230">230</button>
+<button class="hotspot" data-sector="231" style="left:36.458%;top:26.667%" title="Sector 231">231</button>
+<button class="hotspot" data-sector="232" style="left:61.979%;top:29.000%" title="Sector 232">232</button>
+<button class="hotspot" data-sector="233" style="left:33.854%;top:26.667%" title="Sector 233">233</button>
+<button class="hotspot" data-sector="234" style="left:63.021%;top:26.000%" title="Sector 234">234</button>
+<button class="hotspot" data-sector="235" style="left:41.146%;top:24.333%" title="Sector 235">235</button>
+<button class="hotspot" data-sector="236" style="left:61.979%;top:23.333%" title="Sector 236">236</button>
+<button class="hotspot" data-sector="237" style="left:37.500%;top:24.333%" title="Sector 237">237</button>
+<button class="hotspot" data-sector="238" style="left:59.375%;top:23.667%" title="Sector 238">238</button>
+<button class="hotspot" data-sector="240" style="left:60.938%;top:24.333%" title="Sector 240">240</button>
+<button class="hotspot" data-sector="242" style="left:58.333%;top:24.333%" title="Sector 242">242</button>
+<button class="hotspot" data-sector="244" style="left:55.208%;top:24.333%" title="Sector 244">244</button>
+<button class="hotspot" data-sector="246" style="left:52.083%;top:24.333%" title="Sector 246">246</button>
+<button class="hotspot" data-sector="401" style="left:44.792%;top:68.333%" title="Sector 401">401</button>
+<button class="hotspot" data-sector="402" style="left:52.604%;top:68.333%" title="Sector 402">402</button>
+<button class="hotspot" data-sector="403" style="left:40.625%;top:68.333%" title="Sector 403">403</button>
+<button class="hotspot" data-sector="404" style="left:56.771%;top:68.333%" title="Sector 404">404</button>
+<button class="hotspot" data-sector="405" style="left:35.938%;top:68.333%" title="Sector 405">405</button>
+<button class="hotspot" data-sector="406" style="left:61.458%;top:68.333%" title="Sector 406">406</button>
+<button class="hotspot" data-sector="407" style="left:32.292%;top:65.333%" title="Sector 407">407</button>
+<button class="hotspot" data-sector="408" style="left:66.146%;top:65.333%" title="Sector 408">408</button>
+<button class="hotspot" data-sector="409" style="left:29.167%;top:43.333%" title="Sector 409">409</button>
+<button class="hotspot" data-sector="410" style="left:61.979%;top:46.000%" title="Sector 410">410</button>
+<button class="hotspot" data-sector="411" style="left:28.646%;top:39.333%" title="Sector 411">411</button>
+<button class="hotspot" data-sector="412" style="left:62.500%;top:42.000%" title="Sector 412">412</button>
+<button class="hotspot" data-sector="413" style="left:28.646%;top:35.667%" title="Sector 413">413</button>
+<button class="hotspot" data-sector="414" style="left:62.500%;top:38.000%" title="Sector 414">414</button>
+<button class="hotspot" data-sector="415" style="left:28.646%;top:32.000%" title="Sector 415">415</button>
+<button class="hotspot" data-sector="416" style="left:62.500%;top:34.000%" title="Sector 416">416</button>
+<button class="hotspot" data-sector="417" style="left:28.646%;top:28.667%" title="Sector 417">417</button>
+<button class="hotspot" data-sector="418" style="left:62.500%;top:30.000%" title="Sector 418">418</button>
+<button class="hotspot" data-sector="419" style="left:28.646%;top:25.333%" title="Sector 419">419</button>
+<button class="hotspot" data-sector="420" style="left:62.500%;top:26.000%" title="Sector 420">420</button>
+<button class="hotspot" data-sector="421" style="left:28.646%;top:22.000%" title="Sector 421">421</button>
+<button class="hotspot" data-sector="423" style="left:31.250%;top:20.333%" title="Sector 423">423</button>
+<button class="hotspot" data-sector="424" style="left:61.979%;top:20.333%" title="Sector 424">424</button>
+<button class="hotspot" data-sector="425" style="left:36.458%;top:20.000%" title="Sector 425">425</button>
+<button class="hotspot" data-sector="426" style="left:59.375%;top:20.000%" title="Sector 426">426</button>
+<button class="hotspot" data-sector="427" style="left:42.708%;top:20.000%" title="Sector 427">427</button>
+<button class="hotspot" data-sector="428" style="left:54.167%;top:20.000%" title="Sector 428">428</button>
+<button class="hotspot" data-sector="429" style="left:48.177%;top:20.000%" title="Sector 429">429</button>
+<button class="hotspot" data-sector="430" style="left:50.000%;top:20.000%" title="Sector 430">430</button>
+<button class="hotspot" data-sector="501" style="left:46.094%;top:72.000%" title="Sector 501">501</button>
+<button class="hotspot" data-sector="502" style="left:53.125%;top:72.000%" title="Sector 502">502</button>
+<button class="hotspot" data-sector="503" style="left:43.229%;top:72.000%" title="Sector 503">503</button>
+<button class="hotspot" data-sector="504" style="left:56.250%;top:72.000%" title="Sector 504">504</button>
+<button class="hotspot" data-sector="505" style="left:39.583%;top:72.000%" title="Sector 505">505</button>
+<button class="hotspot" data-sector="506" style="left:59.375%;top:72.000%" title="Sector 506">506</button>
+<button class="hotspot" data-sector="507" style="left:35.938%;top:72.000%" title="Sector 507">507</button>
+<button class="hotspot" data-sector="508" style="left:63.021%;top:72.000%" title="Sector 508">508</button>
+<button class="hotspot" data-sector="509" style="left:48.438%;top:75.000%" title="Sector 509">509</button>
+<button class="hotspot" data-sector="510" style="left:56.250%;top:75.000%" title="Sector 510">510</button>
+<button class="hotspot" data-sector="511" style="left:45.573%;top:75.000%" title="Sector 511">511</button>
+<button class="hotspot" data-sector="512" style="left:59.375%;top:74.333%" title="Sector 512">512</button>
+<button class="hotspot" data-sector="513" style="left:42.708%;top:74.000%" title="Sector 513">513</button>
+<button class="hotspot" data-sector="514" style="left:61.458%;top:71.333%" title="Sector 514">514</button>
+<button class="hotspot" data-sector="515" style="left:39.583%;top:72.000%" title="Sector 515">515</button>
+<button class="hotspot" data-sector="516" style="left:63.021%;top:67.333%" title="Sector 516">516</button>
+<button class="hotspot" data-sector="517" style="left:36.458%;top:69.333%" title="Sector 517">517</button>
+<button class="hotspot" data-sector="518" style="left:64.323%;top:63.000%" title="Sector 518">518</button>
+<button class="hotspot" data-sector="519" style="left:33.854%;top:65.667%" title="Sector 519">519</button>
+<button class="hotspot" data-sector="520" style="left:64.583%;top:58.333%" title="Sector 520">520</button>
+<button class="hotspot" data-sector="521" style="left:32.292%;top:61.333%" title="Sector 521">521</button>
+<button class="hotspot" data-sector="522" style="left:64.583%;top:53.667%" title="Sector 522">522</button>
+<button class="hotspot" data-sector="523" style="left:32.292%;top:56.667%" title="Sector 523">523</button>
+<button class="hotspot" data-sector="524" style="left:64.583%;top:49.000%" title="Sector 524">524</button>
+<button class="hotspot" data-sector="525" style="left:32.292%;top:52.000%" title="Sector 525">525</button>
+<button class="hotspot" data-sector="526" style="left:64.583%;top:44.333%" title="Sector 526">526</button>
+<button class="hotspot" data-sector="527" style="left:32.292%;top:47.333%" title="Sector 527">527</button>
+<button class="hotspot" data-sector="528" style="left:64.583%;top:39.667%" title="Sector 528">528</button>
+<button class="hotspot" data-sector="529" style="left:32.292%;top:42.667%" title="Sector 529">529</button>
+<button class="hotspot" data-sector="530" style="left:64.583%;top:35.000%" title="Sector 530">530</button>
+<button class="hotspot" data-sector="531" style="left:32.292%;top:38.000%" title="Sector 531">531</button>
+<button class="hotspot" data-sector="532" style="left:64.583%;top:30.333%" title="Sector 532">532</button>
+<button class="hotspot" data-sector="533" style="left:32.292%;top:33.333%" title="Sector 533">533</button>
+<button class="hotspot" data-sector="534" style="left:64.583%;top:25.667%" title="Sector 534">534</button>
+<button class="hotspot" data-sector="535" style="left:32.552%;top:28.333%" title="Sector 535">535</button>
+<button class="hotspot" data-sector="536" style="left:63.542%;top:20.667%" title="Sector 536">536</button>
+<button class="hotspot" data-sector="537" style="left:17.188%;top:17.000%" title="Sector 537">537</button>
+<button class="hotspot" data-sector="538" style="left:60.677%;top:17.000%" title="Sector 538">538</button>
+<button class="hotspot" data-sector="539" style="left:19.792%;top:13.667%" title="Sector 539">539</button>
+<button class="hotspot" data-sector="540" style="left:57.812%;top:13.667%" title="Sector 540">540</button>
+<button class="hotspot" data-sector="541" style="left:22.917%;top:13.667%" title="Sector 541">541</button>
+<button class="hotspot" data-sector="542" style="left:53.906%;top:13.667%" title="Sector 542">542</button>
+<button class="hotspot" data-sector="543" style="left:25.260%;top:14.667%" title="Sector 543">543</button>
+<button class="hotspot" data-sector="544" style="left:50.000%;top:14.667%" title="Sector 544">544</button>
+<button class="hotspot" data-sector="545" style="left:27.865%;top:14.667%" title="Sector 545">545</button>
+<button class="hotspot" data-sector="546" style="left:46.875%;top:14.667%" title="Sector 546">546</button>
+<button class="hotspot" data-sector="547" style="left:30.729%;top:14.667%" title="Sector 547">547</button>
+<button class="hotspot" data-sector="548" style="left:44.010%;top:14.667%" title="Sector 548">548</button>
+<button class="hotspot" data-sector="549" style="left:33.854%;top:14.667%" title="Sector 549">549</button>
+<button class="hotspot" data-sector="550" style="left:40.625%;top:14.667%" title="Sector 550">550</button>
+<button class="hotspot" data-sector="551" style="left:36.979%;top:14.667%" title="Sector 551">551</button>
+</div></div>
+<div class="steps">
+<div class="step"><div class="small">SECTOR</div><div id="outSector" class="val">101</div></div>
+<div class="step"><div class="small">ZONA</div><div id="outZone" class="val">Tribuna</div></div>
+<div class="step"><div class="small">PUERTA</div><div id="outGate" class="val">0</div></div>
+<div class="step"><div class="small">RECORRIDO</div><div id="outTime" class="val">Calculado</div></div>
+</div>
+<div class="card" style="margin-top:12px"><b>Digitalización</b><div class="muted" style="margin-top:5px">Los sectores están convertidos en puntos interactivos sobre el plano. Las posiciones son de nivel sector; las filas y asientos todavía requieren un plano de localidades detallado para obtener navegación asiento-a-asiento.</div></div>
+</section>
+</div>
+</main>
+<script>
+const DATA={"537": {"zone": "Fondos", "x": 330, "y": 255}, "539": {"zone": "Fondos", "x": 380, "y": 205}, "541": {"zone": "Fondos", "x": 440, "y": 205}, "543": {"zone": "Fondos", "x": 485, "y": 220}, "545": {"zone": "Fondos", "x": 535, "y": 220}, "547": {"zone": "Fondos", "x": 590, "y": 220}, "549": {"zone": "Fondos", "x": 650, "y": 220}, "551": {"zone": "Fondos", "x": 710, "y": 220}, "550": {"zone": "Fondos", "x": 780, "y": 220}, "548": {"zone": "Fondos", "x": 845, "y": 220}, "546": {"zone": "Fondos", "x": 900, "y": 220}, "544": {"zone": "Fondos", "x": 960, "y": 220}, "542": {"zone": "Fondos", "x": 1035, "y": 205}, "540": {"zone": "Fondos", "x": 1110, "y": 205}, "538": {"zone": "Fondos", "x": 1165, "y": 255}, "536": {"zone": "Fondos", "x": 1220, "y": 310}, "534": {"zone": "Fondos", "x": 1240, "y": 385}, "532": {"zone": "Fondos", "x": 1240, "y": 455}, "530": {"zone": "Fondos", "x": 1240, "y": 525}, "528": {"zone": "Fondos", "x": 1240, "y": 595}, "526": {"zone": "Fondos", "x": 1240, "y": 665}, "524": {"zone": "Fondos", "x": 1240, "y": 735}, "522": {"zone": "Fondos", "x": 1240, "y": 805}, "520": {"zone": "Fondos", "x": 1240, "y": 875}, "518": {"zone": "Fondos", "x": 1235, "y": 945}, "516": {"zone": "Fondos", "x": 1210, "y": 1010}, "514": {"zone": "Fondos", "x": 1180, "y": 1070}, "512": {"zone": "Fondos", "x": 1140, "y": 1115}, "510": {"zone": "Fondos", "x": 1080, "y": 1125}, "509": {"zone": "Fondos", "x": 930, "y": 1125}, "511": {"zone": "Fondos", "x": 875, "y": 1125}, "513": {"zone": "Fondos", "x": 820, "y": 1110}, "515": {"zone": "Fondos", "x": 760, "y": 1080}, "517": {"zone": "Fondos", "x": 700, "y": 1040}, "519": {"zone": "Fondos", "x": 650, "y": 985}, "521": {"zone": "Fondos", "x": 620, "y": 920}, "523": {"zone": "Fondos", "x": 620, "y": 850}, "525": {"zone": "Fondos", "x": 620, "y": 780}, "527": {"zone": "Fondos", "x": 620, "y": 710}, "529": {"zone": "Fondos", "x": 620, "y": 640}, "531": {"zone": "Fondos", "x": 620, "y": 570}, "533": {"zone": "Fondos", "x": 620, "y": 500}, "535": {"zone": "Fondos", "x": 625, "y": 425}, "423": {"zone": "Preferencia", "x": 600, "y": 305}, "425": {"zone": "Preferencia", "x": 700, "y": 300}, "427": {"zone": "Preferencia", "x": 820, "y": 300}, "429": {"zone": "Preferencia", "x": 925, "y": 300}, "430": {"zone": "Preferencia", "x": 960, "y": 300}, "428": {"zone": "Preferencia", "x": 1040, "y": 300}, "426": {"zone": "Preferencia", "x": 1140, "y": 300}, "424": {"zone": "Preferencia", "x": 1190, "y": 305}, "421": {"zone": "Preferencia", "x": 550, "y": 330}, "419": {"zone": "Preferencia", "x": 550, "y": 380}, "417": {"zone": "Preferencia", "x": 550, "y": 430}, "415": {"zone": "Preferencia", "x": 550, "y": 480}, "413": {"zone": "Preferencia", "x": 550, "y": 535}, "411": {"zone": "Preferencia", "x": 550, "y": 590}, "409": {"zone": "Preferencia", "x": 560, "y": 650}, "420": {"zone": "Preferencia", "x": 1200, "y": 390}, "418": {"zone": "Preferencia", "x": 1200, "y": 450}, "416": {"zone": "Preferencia", "x": 1200, "y": 510}, "414": {"zone": "Preferencia", "x": 1200, "y": 570}, "412": {"zone": "Preferencia", "x": 1200, "y": 630}, "410": {"zone": "Preferencia", "x": 1190, "y": 690}, "237": {"zone": "Preferencia", "x": 720, "y": 365}, "235": {"zone": "Preferencia", "x": 790, "y": 365}, "246": {"zone": "Preferencia", "x": 1000, "y": 365}, "244": {"zone": "Preferencia", "x": 1060, "y": 365}, "242": {"zone": "Preferencia", "x": 1120, "y": 365}, "240": {"zone": "Preferencia", "x": 1170, "y": 365}, "233": {"zone": "Preferencia", "x": 650, "y": 400}, "231": {"zone": "Preferencia", "x": 700, "y": 400}, "229": {"zone": "Preferencia", "x": 750, "y": 400}, "227": {"zone": "Preferencia", "x": 800, "y": 400}, "225": {"zone": "Preferencia", "x": 850, "y": 400}, "223": {"zone": "Fondos", "x": 450, "y": 700}, "221": {"zone": "Fondos", "x": 475, "y": 750}, "219": {"zone": "Fondos", "x": 500, "y": 800}, "217": {"zone": "Fondos", "x": 520, "y": 850}, "215": {"zone": "Tribuna", "x": 590, "y": 890}, "123": {"zone": "Preferencia", "x": 720, "y": 430}, "125": {"zone": "Preferencia", "x": 820, "y": 430}, "127": {"zone": "Preferencia", "x": 900, "y": 430}, "126": {"zone": "Preferencia", "x": 970, "y": 430}, "124": {"zone": "Preferencia", "x": 1040, "y": 430}, "122": {"zone": "Preferencia", "x": 1130, "y": 430}, "120": {"zone": "Preferencia", "x": 1190, "y": 430}, "238": {"zone": "Preferencia", "x": 1140, "y": 355}, "236": {"zone": "Preferencia", "x": 1190, "y": 350}, "234": {"zone": "Preferencia", "x": 1210, "y": 390}, "232": {"zone": "Preferencia", "x": 1190, "y": 435}, "109": {"zone": "Fondos", "x": 560, "y": 820}, "111": {"zone": "Fondos", "x": 520, "y": 800}, "113": {"zone": "Fondos", "x": 480, "y": 760}, "115": {"zone": "Fondos", "x": 450, "y": 700}, "117": {"zone": "Fondos", "x": 450, "y": 640}, "119": {"zone": "Fondos", "x": 450, "y": 580}, "110": {"zone": "Fondos", "x": 1170, "y": 820}, "112": {"zone": "Fondos", "x": 1190, "y": 780}, "114": {"zone": "Fondos", "x": 1190, "y": 720}, "116": {"zone": "Fondos", "x": 1190, "y": 660}, "118": {"zone": "Fondos", "x": 1170, "y": 600}, "218": {"zone": "Fondos", "x": 1150, "y": 850}, "220": {"zone": "Fondos", "x": 1180, "y": 790}, "222": {"zone": "Fondos", "x": 1190, "y": 740}, "224": {"zone": "Fondos", "x": 1190, "y": 690}, "226": {"zone": "Fondos", "x": 1190, "y": 640}, "228": {"zone": "Fondos", "x": 1190, "y": 590}, "230": {"zone": "Fondos", "x": 1190, "y": 540}, "107": {"zone": "Tribuna", "x": 630, "y": 905}, "105": {"zone": "Tribuna", "x": 710, "y": 905}, "103": {"zone": "Tribuna", "x": 820, "y": 905}, "101": {"zone": "Tribuna", "x": 910, "y": 905}, "102": {"zone": "Tribuna", "x": 980, "y": 905}, "104": {"zone": "Tribuna", "x": 1060, "y": 905}, "106": {"zone": "Tribuna", "x": 1160, "y": 905}, "108": {"zone": "Tribuna", "x": 1260, "y": 905}, "207": {"zone": "Tribuna", "x": 650, "y": 950}, "205": {"zone": "Tribuna", "x": 735, "y": 950}, "203": {"zone": "Tribuna", "x": 835, "y": 950}, "201": {"zone": "Tribuna", "x": 905, "y": 950}, "202": {"zone": "Tribuna", "x": 975, "y": 950}, "204": {"zone": "Tribuna", "x": 1040, "y": 950}, "206": {"zone": "Tribuna", "x": 1120, "y": 950}, "208": {"zone": "Tribuna", "x": 1210, "y": 950}, "209": {"zone": "Tribuna", "x": 700, "y": 970}, "210": {"zone": "Tribuna", "x": 1160, "y": 970}, "211": {"zone": "Tribuna", "x": 650, "y": 990}, "212": {"zone": "Tribuna", "x": 1200, "y": 990}, "213": {"zone": "Tribuna", "x": 610, "y": 930}, "214": {"zone": "Tribuna", "x": 1240, "y": 930}, "216": {"zone": "Tribuna", "x": 1260, "y": 880}, "405": {"zone": "Tribuna", "x": 690, "y": 1025}, "403": {"zone": "Tribuna", "x": 780, "y": 1025}, "401": {"zone": "Tribuna", "x": 860, "y": 1025}, "402": {"zone": "Tribuna", "x": 1010, "y": 1025}, "404": {"zone": "Tribuna", "x": 1090, "y": 1025}, "406": {"zone": "Tribuna", "x": 1180, "y": 1025}, "407": {"zone": "Tribuna", "x": 620, "y": 980}, "408": {"zone": "Tribuna", "x": 1270, "y": 980}, "507": {"zone": "Tribuna", "x": 690, "y": 1080}, "505": {"zone": "Tribuna", "x": 760, "y": 1080}, "503": {"zone": "Tribuna", "x": 830, "y": 1080}, "501": {"zone": "Tribuna", "x": 885, "y": 1080}, "502": {"zone": "Tribuna", "x": 1020, "y": 1080}, "504": {"zone": "Tribuna", "x": 1080, "y": 1080}, "506": {"zone": "Tribuna", "x": 1140, "y": 1080}, "508": {"zone": "Tribuna", "x": 1210, "y": 1080}};
+const GATES={"0": [1670, 525], "1": [1670, 470], "2": [1670, 790], "3": [1540, 125], "4": [1540, 1160], "5": [1210, 105], "6": [930, 1165], "7": [900, 115], "8": [900, 1165], "9": [700, 115], "10": [570, 1165], "11": [560, 115], "12": [500, 1165], "13": [410, 115], "14": [330, 1165], "15": [270, 115], "16": [260, 1165], "18": [190, 1165]};
+const $=id=>document.getElementById(id);
+const hotspots=[...document.querySelectorAll('.hotspot')];
+function selectSector(s){ $('sector').value=s; hotspots.forEach(h=>h.classList.toggle('active',h.dataset.sector===s)); update(); }
+function update(){
+ const s=$('sector').value,d=DATA[s]; if(!d)return;
+ const r=Math.max(1,+$('row').value||1),a=Math.max(1,+$('seat').value||1),g=$('gate').value;
+ $('row').value=r;$('seat').value=a;
+ $('dest').textContent=`Sector ${s} · Fila ${r} · Asiento ${a}`;
+ $('zone').textContent=d.zone;$('outSector').textContent=s;$('outZone').textContent=d.zone;$('outGate').textContent=g;
+ const [gx,gy]=GATES[g], tx=d.x, ty=d.y;
+ $('startMarker').setAttribute('cx',gx);$('startMarker').setAttribute('cy',gy);
+ $('targetMarker').setAttribute('cx',tx);$('targetMarker').setAttribute('cy',ty);
+ // Ruta simplificada con dos puntos intermedios; sustituible por grafo real de pasillos.
+ const mid1y=gy+(ty-gy)*.35, mid2y=gy+(ty-gy)*.72;
+ $('routePath').setAttribute('d',`M ${gx} ${gy} L ${gx} ${mid1y} L ${tx} ${mid2y} L ${tx} ${ty}`);
+ $('outTime').textContent='Ruta visual';
+}
+hotspots.forEach(h=>h.addEventListener('click',()=>selectSector(h.dataset.sector)));
+$('form').addEventListener('submit',e=>{e.preventDefault();update()});
+$('sector').addEventListener('change',update);$('gate').addEventListener('change',update);
+update();
+if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
+</script>
+</body></html>
