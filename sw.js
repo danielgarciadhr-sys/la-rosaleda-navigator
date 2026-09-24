@@ -1,1 +1,1 @@
-const C='rosaleda-v3';const A=['./','./index.html','./manifest.webmanifest','./mapa-la-rosaleda.png'];self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(A))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));
+const C='rosaleda-v2';const A=['./','./index.html','./manifest.webmanifest','./mapa-la-rosaleda.png'];self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(A))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));
