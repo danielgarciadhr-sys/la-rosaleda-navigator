@@ -1,1 +1,1 @@
-Sube estos 4 archivos a GitHub Pages: index.html, manifest.webmanifest, sw.js y mapa-la-rosaleda.png.
+Sube todos los archivos a GitHub Pages. Si ya tenias una version instalada, borra la cache del sitio o recarga con Ctrl+F5 para que entre la V6.

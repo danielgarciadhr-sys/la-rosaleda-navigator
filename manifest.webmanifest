@@ -1,9 +1,1 @@
-{
-  "name": "La Rosaleda Navigator",
-  "short_name": "Rosaleda",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#eef2f7",
-  "theme_color": "#061b45",
-  "lang": "es"
-}
+{"name": "La Rosaleda Navigator", "short_name": "Rosaleda", "start_url": "./index.html", "display": "standalone", "background_color": "#eef2f7", "theme_color": "#061b45", "lang": "es"}
