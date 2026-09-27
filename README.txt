@@ -1,1 +1,1 @@
-Sube todos los archivos a GitHub Pages. Si ya tenias una version instalada, borra la cache del sitio o recarga con Ctrl+F5 para que entre la V6.
+V7 EXACTA: usa mapa-la-rosaleda.png de 1920x1304 y genera las zonas SVG a partir de las formas coloreadas reales del plano. Sube estos archivos a GitHub Pages. No subas el ZIP dentro del repositorio: sube el contenido.
