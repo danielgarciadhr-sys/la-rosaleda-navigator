@@ -1,0 +1,24 @@
+LA ROSALEDA NAVIGATOR V8 — SUBIDA A GITHUB PAGES
+
+ARCHIVOS QUE DEBES SUBIR A LA RAÍZ DEL REPOSITORIO:
+- index.html
+- rosaleda-mapa-v8.png  (es la última imagen del plano que enviaste)
+- shapes.json
+- manifest.webmanifest
+- sw.js
+- LEEME_GITHUB.txt (opcional)
+
+PASOS:
+1. Descarga y descomprime el ZIP en tu ordenador.
+2. En GitHub, abre la página principal de tu repositorio.
+3. Pulsa Add file > Upload files.
+4. Abre la carpeta descomprimida y selecciona LOS ARCHIVOS DE DENTRO; no arrastres la carpeta que los contiene ni subas el ZIP.
+5. Arrastra los archivos seleccionados a GitHub. Si te pregunta por reemplazar index.html u otros archivos, acepta reemplazarlos.
+6. Pulsa Commit changes y espera a que termine la publicación de Pages.
+7. En Settings > Pages, comprueba que publica desde la rama main y la carpeta /(root).
+8. Abre tu página y pulsa Ctrl+F5 para recargar sin usar la versión guardada en el navegador.
+
+IMPORTANTE:
+- Todos los archivos deben quedar al mismo nivel que index.html, no dentro de una subcarpeta.
+- No cambies el nombre rosaleda-mapa-v8.png: index.html busca ese nombre exacto.
+- Si el repositorio tiene un archivo index.html viejo en otra carpeta, GitHub Pages puede seguir publicando la versión incorrecta; debe estar en la raíz configurada en Settings > Pages.
