@@ -1,1 +1,0 @@
-V7 EXACTA: usa mapa-la-rosaleda.png de 1920x1304 y genera las zonas SVG a partir de las formas coloreadas reales del plano. Sube estos archivos a GitHub Pages. No subas el ZIP dentro del repositorio: sube el contenido.
